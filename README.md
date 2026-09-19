@@ -32,9 +32,9 @@ open UltraTools.xcodeproj
 1. Выбрать таргет **UltraTools** → Signing & Capabilities → свою команду (Team).
 2. Run (⌘R) на устройстве или симуляторе.
 
-### Готовый IPA через GitHub Actions
+### 📥 Скачать готовый IPA
 
-При каждом пуше в репозиторий воркфлоу [`build-ipa.yml`](.github/workflows/build-ipa.yml) собирает архив на macOS и выкладывает артефакт **UltraTools-unsigned-ipa** (вкладка Actions → последний запуск → Artifacts).
+Файл лежит в разделе **[Releases → UltraTools v1.0](https://github.com/kulikoff-ad/Ultra/releases/latest)** — скачайте **UltraTools-unsigned.ipa** (раздел Assets). При каждом обновлении кода CI пересобирает файл автоматически.
 
 ### Установка IPA на iPhone
 
