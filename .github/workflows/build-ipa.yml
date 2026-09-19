@@ -81,11 +81,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG="v1.1"
+          TAG="v1.2"
           NOTES=$'Готовый файл приложения **UltraTools**.\n\nКак установить на iPhone:\n1. Скачайте файл **UltraTools-unsigned.ipa** ниже (раздел Assets).\n2. Установите на компьютер [AltStore](https://altstore.io) или [Sideloadly](https://sideloadly.io).\n3. Войдите под своим Apple ID и перетащите туда скачанный .ipa.\n4. Приложение появится на iPhone. Требуется iOS 16.2+.'
           gh release view "$TAG" >/dev/null 2>&1 || \
             gh release create "$TAG" \
-              --title "UltraTools v1.1" \
+              --title "UltraTools v1.2" \
               --notes "$NOTES" \
               --target "${{ github.sha }}"
           gh release upload "$TAG" build/UltraTools-unsigned.ipa --clobber

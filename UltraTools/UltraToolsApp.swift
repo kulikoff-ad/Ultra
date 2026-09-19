@@ -21,8 +21,8 @@ struct RootView: View {
             TabView {
                 HomeView()
                     .tabItem { Label("Главная", systemImage: "house.fill") }
-                CertificatesView()
-                    .tabItem { Label("Сертификаты", systemImage: "checkmark.seal.fill") }
+                InstallIPAView()
+                    .tabItem { Label("Установка", systemImage: "square.and.arrow.down.fill") }
                 HiddenFeaturesView()
                     .tabItem { Label("Секреты", systemImage: "eye.slash.fill") }
                 JailbreakView()

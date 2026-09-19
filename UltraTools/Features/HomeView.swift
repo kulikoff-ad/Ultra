@@ -26,6 +26,11 @@ struct HomeView: View {
 
                 Section("Инструменты") {
                     NavigationLink {
+                        InstallIPAContent()
+                    } label: {
+                        Label("Установка IPA и трекер 7 дней", systemImage: "square.and.arrow.down.fill")
+                    }
+                    NavigationLink {
                         CertificatesContent()
                     } label: {
                         Label("Сертификаты и установка приложений", systemImage: "checkmark.seal.fill")
