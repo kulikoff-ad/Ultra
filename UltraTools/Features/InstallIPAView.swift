@@ -349,15 +349,15 @@ struct InstallIPAContent: View {
                 importedURL = dest
                 importedSize = size
                 importedInfo = info
-            case .failure(let message):
-                importError = message
+            case .failure(let error):
+                importError = "Не удалось открыть файл: \(error.localizedDescription)"
             }
         }
     }
 
     /// Тяжёлая работа (копия файла + разбор ZIP) вне главного потока,
     /// чтобы системное окно выбора файла закрывалось мгновенно.
-    nonisolated private static func loadIPA(from url: URL) async -> Result<(dest: URL, size: Int, info: IPAAppInfo?), String> {
+    nonisolated private static func loadIPA(from url: URL) async -> Result<(dest: URL, size: Int, info: IPAAppInfo?), any Error> {
         let didStart = url.startAccessingSecurityScopedResource()
         defer { if didStart { url.stopAccessingSecurityScopedResource() } }
         do {
@@ -370,7 +370,7 @@ struct InstallIPAContent: View {
             let data = try Data(contentsOf: dest, options: .alwaysMapped)
             return .success((dest, data.count, IPAInspector.inspect(data: data)))
         } catch {
-            return .failure("Не удалось открыть файл: \(error.localizedDescription)")
+            return .failure(error)
         }
     }
 }
