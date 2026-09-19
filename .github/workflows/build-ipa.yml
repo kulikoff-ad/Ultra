@@ -38,23 +38,26 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             2>&1 | tee build/xcodebuild.log
 
-      - name: Report build errors to summary
+      - name: Report build errors
         if: failure()
         run: |
-          {
-            echo "### Ошибки сборки"
-            echo '```'
-            if [ -f build/xcodebuild.log ]; then
-              grep -nE "error:|error generated|\*\* ARCHIVE FAILED" build/xcodebuild.log | head -80 || true
+          if [ -f build/xcodebuild.log ]; then
+            grep -E "error:|\*\* ARCHIVE FAILED" build/xcodebuild.log | sort -u | head -20 | while IFS= read -r line; do
+              printf '::error::%s\n' "${line//$'\r'/}"
+            done
+            {
+              echo "### Ошибки сборки"
+              echo '```'
+              grep -nE "error:|\*\* ARCHIVE FAILED" build/xcodebuild.log | head -60 || true
               echo '```'
               echo "### Хвост лога"
               echo '```'
               tail -60 build/xcodebuild.log || true
-            else
-              echo 'лог сборки не найден'
               echo '```'
-            fi
-          } >> "$GITHUB_STEP_SUMMARY"
+            } >> "$GITHUB_STEP_SUMMARY" || true
+          else
+            echo "::error::лог сборки не найден"
+          fi
           exit 0
 
       - name: Package IPA
