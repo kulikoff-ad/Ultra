@@ -214,14 +214,13 @@ struct InstallIPAView: View {
 struct InstallIPAContent: View {
     @StateObject private var tracker = InstallTracker()
     @State private var showImporter = false
+    @State private var isImporting = false
     @State private var importedURL: URL?
     @State private var importedInfo: IPAAppInfo?
     @State private var importedSize: Int = 0
     @State private var importError: String?
 
-    private var ipaTypes: [UTType] {
-        [UTType(filenameExtension: "ipa"), .zip].compactMap { $0 }
-    }
+    private var ipaTypes: [UTType] { [.item] }
 
     var body: some View {
         List {
@@ -232,6 +231,16 @@ struct InstallIPAContent: View {
                     Label("Выбрать .ipa файл", systemImage: "square.and.arrow.down.fill")
                         .frame(maxWidth: .infinity)
                         .font(.headline)
+                }
+                .disabled(isImporting)
+
+                if isImporting {
+                    HStack(spacing: 10) {
+                        ProgressView()
+                        Text("Читаю файл…")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
                 }
 
                 if let info = importedInfo {
@@ -325,6 +334,30 @@ struct InstallIPAContent: View {
     private func importIPA(from url: URL) {
         importError = nil
         importedInfo = nil
+        importedURL = nil
+        let ext = url.pathExtension.lowercased()
+        guard ext == "ipa" || ext == "zip" else {
+            importError = "Файл .\(ext) — не IPA. Выбери файл с расширением .ipa."
+            return
+        }
+        isImporting = true
+        Task {
+            let result = await Self.loadIPA(from: url)
+            isImporting = false
+            switch result {
+            case .success(let dest, let size, let info):
+                importedURL = dest
+                importedSize = size
+                importedInfo = info
+            case .failure(let message):
+                importError = message
+            }
+        }
+    }
+
+    /// Тяжёлая работа (копия файла + разбор ZIP) вне главного потока,
+    /// чтобы системное окно выбора файла закрывалось мгновенно.
+    nonisolated private static func loadIPA(from url: URL) async -> Result<(dest: URL, size: Int, info: IPAAppInfo?), String> {
         let didStart = url.startAccessingSecurityScopedResource()
         defer { if didStart { url.stopAccessingSecurityScopedResource() } }
         do {
@@ -334,12 +367,10 @@ struct InstallIPAContent: View {
                 try FileManager.default.removeItem(at: dest)
             }
             try FileManager.default.copyItem(at: url, to: dest)
-            let data = try Data(contentsOf: dest)
-            importedURL = dest
-            importedSize = data.count
-            importedInfo = IPAInspector.inspect(data: data)
+            let data = try Data(contentsOf: dest, options: .alwaysMapped)
+            return .success((dest, data.count, IPAInspector.inspect(data: data)))
         } catch {
-            importError = "Не удалось открыть файл: \(error.localizedDescription)"
+            return .failure("Не удалось открыть файл: \(error.localizedDescription)")
         }
     }
 }
