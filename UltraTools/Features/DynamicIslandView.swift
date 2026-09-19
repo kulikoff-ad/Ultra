@@ -12,8 +12,18 @@ struct DynamicIslandContent: View {
     @State private var emoji = "⏱️"
 
     private let emojis = ["⏱️", "🎧", "🔋", "🏃‍♂️", "🍕"]
-    private let durations: [(label: String, value: Double)] = [
-        ("1 минута", 1), ("3 минуты", 3), ("5 минут", 5), ("10 минут", 10)
+
+    private struct Duration: Identifiable {
+        var id: Double { value }
+        let label: String
+        let value: Double
+    }
+
+    private let durations: [Duration] = [
+        Duration(label: "1 минута", value: 1),
+        Duration(label: "3 минуты", value: 3),
+        Duration(label: "5 минут", value: 5),
+        Duration(label: "10 минут", value: 10)
     ]
 
     var body: some View {
@@ -30,7 +40,7 @@ struct DynamicIslandContent: View {
                     }
                 }
                 Picker("Длительность", selection: $minutes) {
-                    ForEach(durations, id: \.value) { d in
+                    ForEach(durations) { d in
                         Text(d.label).tag(d.value)
                     }
                 }

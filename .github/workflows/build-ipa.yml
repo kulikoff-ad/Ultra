@@ -19,8 +19,12 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
+      - name: List schemes
+        run: xcodebuild -project UltraTools.xcodeproj -list
+
       - name: Archive
         run: |
+          set -o pipefail
           xcodebuild \
             -project UltraTools.xcodeproj \
             -scheme UltraTools \
@@ -30,7 +34,22 @@ jobs:
             archive \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY=""
+            CODE_SIGN_IDENTITY="" \
+            2>&1 | tee build/xcodebuild.log
+
+      - name: Report build errors to summary
+        if: failure()
+        run: |
+          {
+            echo "### Ошибки сборки"
+            echo '```'
+            grep -nE "error:|error generated|\*\* ARCHIVE FAILED" build/xcodebuild.log | head -80 || true
+            echo '```'
+            echo "### Хвост лога"
+            echo '```'
+            tail -60 build/xcodebuild.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Package IPA
         run: |
