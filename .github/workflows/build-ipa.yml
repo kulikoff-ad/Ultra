@@ -25,6 +25,7 @@ jobs:
       - name: Archive
         run: |
           set -o pipefail
+          mkdir -p build
           xcodebuild \
             -project UltraTools.xcodeproj \
             -scheme UltraTools \
@@ -43,13 +44,18 @@ jobs:
           {
             echo "### Ошибки сборки"
             echo '```'
-            grep -nE "error:|error generated|\*\* ARCHIVE FAILED" build/xcodebuild.log | head -80 || true
-            echo '```'
-            echo "### Хвост лога"
-            echo '```'
-            tail -60 build/xcodebuild.log
-            echo '```'
+            if [ -f build/xcodebuild.log ]; then
+              grep -nE "error:|error generated|\*\* ARCHIVE FAILED" build/xcodebuild.log | head -80 || true
+              echo '```'
+              echo "### Хвост лога"
+              echo '```'
+              tail -60 build/xcodebuild.log || true
+            else
+              echo 'лог сборки не найден'
+              echo '```'
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
+          exit 0
 
       - name: Package IPA
         run: |
