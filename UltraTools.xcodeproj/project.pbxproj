@@ -19,6 +19,7 @@
 		CCC000000000000000000010 /* IslandLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB000000000000000000011 /* IslandLiveActivity.swift */; };
 		CCC000000000000000000011 /* LiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB000000000000000000008 /* LiveActivityAttributes.swift */; };
 		CCC000000000000000000012 /* IslandWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BBB000000000000000000014 /* IslandWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CCC000000000000000000013 /* JailbreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB000000000000000000015 /* JailbreakView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		BBB000000000000000000010 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBB000000000000000000011 /* IslandLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandLiveActivity.swift; sourceTree = "<group>"; };
 		BBB000000000000000000012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBB000000000000000000015 /* JailbreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JailbreakView.swift; sourceTree = "<group>"; };
 		BBB000000000000000000013 /* UltraTools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UltraTools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBB000000000000000000014 /* IslandWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = IslandWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -118,6 +120,7 @@
 				BBB000000000000000000004 /* HiddenFeaturesView.swift */,
 				BBB000000000000000000005 /* DynamicIslandView.swift */,
 				BBB000000000000000000006 /* IslandOverlay.swift */,
+				BBB000000000000000000015 /* JailbreakView.swift */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				CCC000000000000000000004 /* HiddenFeaturesView.swift in Sources */,
 				CCC000000000000000000005 /* DynamicIslandView.swift in Sources */,
 				CCC000000000000000000006 /* IslandOverlay.swift in Sources */,
+				CCC000000000000000000013 /* JailbreakView.swift in Sources */,
 				CCC000000000000000000007 /* IslandManager.swift in Sources */,
 				CCC000000000000000000008 /* LiveActivityAttributes.swift in Sources */,
 			);
@@ -409,7 +413,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kulikoff.ultratools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -433,7 +437,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kulikoff.ultratools;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -455,7 +459,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kulikoff.ultratools.island;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -478,7 +482,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kulikoff.ultratools.island;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

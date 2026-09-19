@@ -7,117 +7,117 @@ struct HiddenFeaturesView: View {
     }
 }
 
-struct HiddenFeature: Identifiable {
+struct HiddenSecret: Identifiable {
     let id = UUID()
     let icon: String
     let title: String
     let detail: String
-    var deepLink: String? = nil
-    var manualPath: String? = nil
 }
 
 struct HiddenFeaturesContent: View {
-    @State private var manualFeature: HiddenFeature?
-    @State private var showManualAlert = false
+    @State private var showCopied = false
 
-    private let linkedFeatures: [HiddenFeature] = [
-        HiddenFeature(
-            icon: "hand.tap.fill",
-            title: "Back Tap — стук по корпусу",
-            detail: "Двойной или тройной стук по спинке телефона выполняет действие: скриншот, фонарик, жест и т.д.",
-            deepLink: "App-prefs:root=ACCESSIBILITY&path=TOUCH",
-            manualPath: "Настройки → Универсальный доступ → Касание → Касание задней панели"
+    private let codes: [HiddenSecret] = [
+        HiddenSecret(
+            icon: "number",
+            title: "*#06#",
+            detail: "«Паспорт» устройства: IMEI, EID, статус SIM. Больше нигде в интерфейсе не показывается."
         ),
-        HiddenFeature(
-            icon: "keyboard.fill",
-            title: "Вибрация клавиатуры",
-            detail: "Клавиатура может откликаться лёгкой вибрацией на каждое нажатие.",
-            deepLink: "App-prefs:root=General&path=Keyboard",
-            manualPath: "Настройки → Звуки, тактильные сигналы → Отклик клавиатуры"
+        HiddenSecret(
+            icon: "phone.arrow.down.left.fill",
+            title: "*#21#",
+            detail: "Проверка, не переадресованы ли ваши звонки и SMS — главный признак прослушки номера."
         ),
-        HiddenFeature(
-            icon: "battery.100.bolt",
-            title: "Процент заряда в статус-баре",
-            detail: "Цифра заряда прямо в значке батареи.",
-            deepLink: "App-prefs:root=BATTERY_USAGE",
-            manualPath: "Настройки → Аккумулятор"
+        HiddenSecret(
+            icon: "phone.badge.waveform",
+            title: "*#62#",
+            detail: "Показывает, куда уходят звонки, когда телефон выключен или вне сети."
         ),
-        HiddenFeature(
-            icon: "moon.fill",
-            title: "Тёмный режим по расписанию",
-            detail: "Автоматическое включение тёмной темы вечером.",
-            deepLink: "App-prefs:root=DISPLAY",
-            manualPath: "Настройки → Экран и яркость → Тёмный режим → Автоматически"
+        HiddenSecret(
+            icon: "phone.fill.badge.plus",
+            title: "*#67#",
+            detail: "Проверка переадресации, когда линия занята."
         ),
-        HiddenFeature(
-            icon: "photo.on.rectangle",
-            title: "Фото и скрытый альбом",
-            detail: "Скрытые альбомы и настройка блокировки скрытых фото по Face ID.",
-            deepLink: "App-prefs:root=Photos",
-            manualPath: "Настройки → Фото"
+        HiddenSecret(
+            icon: "xmark.shield.fill",
+            title: "##002#",
+            detail: "Отключает ВСЮ переадресацию одной командой — антивыслеживающая мера."
         ),
-        HiddenFeature(
-            icon: "internaldrive.fill",
-            title: "Что занимает память",
-            detail: "Детальная разбивка хранилища по приложениям и файлам.",
-            deepLink: "App-prefs:root=General&path=IPHONE_STORAGE",
-            manualPath: "Настройки → Основные → Хранилище iPhone"
+        HiddenSecret(
+            icon: "eye.slash.fill",
+            title: "#31# + номер",
+            detail: "Позвонить со скрытого номера: наберите #31#, затем номер, и вызов."
+        ),
+        HiddenSecret(
+            icon: "antenna.radiowaves.left.and.right",
+            title: "*3001#12345#*",
+            detail: "Field Test: скрытое сервисное меню — точный сигнал в dBm, данные о соте и модеме."
         )
     ]
 
-    private let secretFeatures: [HiddenFeature] = [
-        HiddenFeature(
-            icon: "antenna.radiowaves.left.and.right",
-            title: "Field Test — точный сигнал",
-            detail: "Наберите в «Телефоне» код *3001#12345#* и нажмите вызов: откроется сервисное меню с уровнем сигнала в dBm и данными о соте."
+    private let gestures: [HiddenSecret] = [
+        HiddenSecret(
+            icon: "waveform.and.mic",
+            title: "Запись экрана со звуком",
+            detail: "Удерживайте кнопку записи экрана в Пункте управления — появится включение микрофона. Об этом почти никто не знает."
         ),
-        HiddenFeature(
+        HiddenSecret(
+            icon: "flashlight.on.fill",
+            title: "Яркость фонарика",
+            detail: "Удерживайте значок фонарика в Пункте управления — появится слайдер яркости на 4 уровня."
+        ),
+        HiddenSecret(
+            icon: "keyboard.onehanded.left",
+            title: "Клавиатура одной рукой",
+            detail: "Удерживайте значок глобуса на клавиатуре — она сдвинется к краю экрана для удобной печати большим пальцем."
+        ),
+        HiddenSecret(
             icon: "cursorarrow.rays",
             title: "Клавиатура-трекпад",
-            detail: "Зажмите пробел на клавиатуре — она превратится в трекпад для точного перемещения курсора в тексте."
+            detail: "Зажмите пробел — клавиатура станет трекпадом, и курсор в тексте двигается пальцем, как мышкой."
         ),
-        HiddenFeature(
-            icon: "text.viewfinder",
-            title: "Live Text — текст с фото",
-            detail: "В Камере или Фото нажмите значок текста: любой текст с картинки можно скопировать, перевести или набрать с него номер."
+        HiddenSecret(
+            icon: "safari.fill",
+            title: "Мгновенные вкладки в Safari",
+            detail: "Проведите пальцем вдоль нижней адресной строки влево-вправо — вкладки переключаются без карусели."
         ),
-        HiddenFeature(
-            icon: "power",
-            title: "Выключение без кнопок",
-            detail: "Настройки → Основные → Выключить. Полезно, если кнопки сломаны. Принудительная перезагрузка: громкость вверх, громкость вниз, зажать боковую кнопку."
+        HiddenSecret(
+            icon: "camera.fill",
+            title: "Серийная съёмка",
+            detail: "Удерживайте кнопку спуска в Камере — серия снимков. Кнопки громкости тоже снимают, а в настройках им можно включить быструю серию."
         ),
-        HiddenFeature(
-            icon: "timer",
-            title: "Таймер со сном",
-            detail: "В Таймере → «Когда таймер закончится» → «Остановить воспроизведение»: музыка перестаёт играть и экран блокируется — удобно для засыпания."
+        HiddenSecret(
+            icon: "sos.circle.fill",
+            title: "Экстренный SOS",
+            detail: "5 быстрых нажатий боковой кнопки — звонок 112 и сообщение экстренным контактам с геопозицией."
         ),
-        HiddenFeature(
-            icon: "moon.zzz.fill",
-            title: "Скрытые возможности Фокусирования",
-            detail: "Режимы Фокусирования могут скрывать целые рабочие столы приложений и менять экран блокировки по расписанию или геолокации."
+        HiddenSecret(
+            icon: "stethoscope",
+            title: "sysdiagnose — полный лог системы",
+            detail: "Громкость вверх + громкость вниз + питание одновременно (коротко) — iPhone скрыто собирает полную диагностику. В интерфейсе этого нет."
         )
     ]
 
     var body: some View {
         List {
-            Section("Быстрый доступ к настройкам") {
-                ForEach(linkedFeatures) { feature in
-                    FeatureRow(feature: feature) { open(feature) }
+            Section("Скрытые коды (набирать в «Телефоне»)") {
+                ForEach(codes) { secret in
+                    CodeRow(secret: secret) { copyCode(secret.title) }
                 }
             }
 
-            Section("Скрытые коды и жесты") {
-                ForEach(secretFeatures) { feature in
+            Section("Скрытые жесты") {
+                ForEach(gestures) { secret in
                     Label {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(feature.title)
+                            Text(secret.title)
                                 .font(.subheadline.weight(.semibold))
-                            Text(feature.detail)
+                            Text(secret.detail)
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)
                         }
                     } icon: {
-                        Image(systemName: feature.icon)
+                        Image(systemName: secret.icon)
                             .foregroundStyle(Color.accentColor)
                     }
                     .padding(.vertical, 2)
@@ -125,55 +125,43 @@ struct HiddenFeaturesContent: View {
             }
 
             Section {
-                Text("Это реальные системные функции iOS. Deep-link открывает страницу Настроек напрямую; если на вашей версии iOS он не сработал — приложение подскажет путь вручную.")
+                Text("Этих функций нет в Настройках — это скрытые коды и жесты самой системы. iOS запрещает приложениям набирать коды за вас, поэтому по кнопке «Скопировать» код улетает в буфер — вставьте его в «Телефоне» и нажмите вызов.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
         }
         .navigationTitle("Секреты iOS")
-        .alert("Откройте вручную", isPresented: $showManualAlert) {
-            Button("Понятно", role: .cancel) {}
+        .alert("Код скопирован", isPresented: $showCopied) {
+            Button("OK", role: .cancel) {}
         } message: {
-            Text(manualFeature?.manualPath ?? "Откройте эту функцию через приложение «Настройки».")
+            Text("Откройте «Телефон», вставьте код в набор номера и нажмите вызов.")
         }
     }
 
-    private func open(_ feature: HiddenFeature) {
-        guard let link = feature.deepLink, let url = URL(string: link) else {
-            presentManual(feature)
-            return
-        }
-        UIApplication.shared.open(url) { success in
-            if !success {
-                presentManual(feature)
-            }
-        }
-    }
-
-    private func presentManual(_ feature: HiddenFeature) {
-        manualFeature = feature
-        showManualAlert = true
+    private func copyCode(_ code: String) {
+        UIPasteboard.general.string = code
+        showCopied = true
     }
 }
 
-private struct FeatureRow: View {
-    let feature: HiddenFeature
+private struct CodeRow: View {
+    let secret: HiddenSecret
     let action: () -> Void
 
     var body: some View {
         HStack(spacing: 10) {
-            Image(systemName: feature.icon)
+            Image(systemName: secret.icon)
                 .foregroundStyle(Color.accentColor)
                 .frame(width: 24)
             VStack(alignment: .leading, spacing: 2) {
-                Text(feature.title)
-                    .font(.subheadline.weight(.semibold))
-                Text(feature.detail)
+                Text(secret.title)
+                    .font(.subheadline.weight(.bold).monospaced())
+                Text(secret.detail)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            Button("Открыть", action: action)
+            Button("Скопировать", action: action)
                 .buttonStyle(.borderless)
                 .font(.subheadline.weight(.medium))
         }

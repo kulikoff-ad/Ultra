@@ -36,6 +36,11 @@ struct HomeView: View {
                         Label("Скрытые функции iPhone", systemImage: "eye.slash.fill")
                     }
                     NavigationLink {
+                        JailbreakContent()
+                    } label: {
+                        Label("Джейлбрейк без потери данных", systemImage: "lock.open.fill")
+                    }
+                    NavigationLink {
                         DynamicIslandContent()
                     } label: {
                         Label("Dynamic Island", systemImage: "circle.dotted")

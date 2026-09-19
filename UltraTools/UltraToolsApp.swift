@@ -25,6 +25,8 @@ struct RootView: View {
                     .tabItem { Label("Сертификаты", systemImage: "checkmark.seal.fill") }
                 HiddenFeaturesView()
                     .tabItem { Label("Секреты", systemImage: "eye.slash.fill") }
+                JailbreakView()
+                    .tabItem { Label("Джейл", systemImage: "lock.open.fill") }
                 DynamicIslandView()
                     .tabItem { Label("Остров", systemImage: "circle.dotted") }
             }

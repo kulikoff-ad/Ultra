@@ -8,6 +8,8 @@ struct CertificatesView: View {
 }
 
 struct CertificatesContent: View {
+    @State private var showManualAlert = false
+
     var body: some View {
         List {
             Section {
@@ -21,6 +23,26 @@ struct CertificatesContent: View {
                     .font(.footnote)
                 }
                 .padding(.vertical, 4)
+            }
+
+            Section("Сделать сертификат") {
+                Button {
+                    openLink("https://developer.apple.com/enroll/")
+                } label: {
+                    Label("Официально — через сайт Apple", systemImage: "checkmark.seal.fill")
+                }
+                Text("Единственный настоящий способ «сделать» себе сертификат разработчика — зарегистрироваться в Apple Developer Program ($99/год). Тогда вы подписываете любые свои IPA до года.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                Button {
+                    openProfilesPage()
+                } label: {
+                    Label("Проверить установленные профили", systemImage: "lock.shield.fill")
+                }
+                Text("Откроется страница «Профили»: там видны чужие «корпоративные сертификаты» — если что-то установлено не вами, удалите это.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
             }
 
             Section("Как на самом деле работает подпись") {
@@ -61,6 +83,26 @@ struct CertificatesContent: View {
             }
         }
         .navigationTitle("Сертификаты")
+        .alert("Откройте вручную", isPresented: $showManualAlert) {
+            Button("Понятно", role: .cancel) {}
+        } message: {
+            Text("Настройки → Основные → VPN и управление устройством")
+        }
+    }
+
+    private func openLink(_ urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url)
+    }
+
+    private func openProfilesPage() {
+        if let url = URL(string: "App-prefs:root=General&path=ManagedVPN") {
+            UIApplication.shared.open(url) { success in
+                if !success { showManualAlert = true }
+            }
+        } else {
+            showManualAlert = true
+        }
     }
 }
 
