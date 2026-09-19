@@ -1,6 +1,6 @@
 # UltraTools 🏝️
 
-iOS-приложение **UltraTools** — сертификаты и установка приложений, скрытые функции iPhone и Dynamic Island. Сделано на SwiftUI + ActivityKit (Live Activities), требуется **iOS 16.1+**.
+iOS-приложение **UltraTools** — сертификаты и установка приложений, скрытые функции iPhone и Dynamic Island. Сделано на SwiftUI + ActivityKit (Live Activities), требуется **iOS 16.2+**.
 
 ## Что внутри
 

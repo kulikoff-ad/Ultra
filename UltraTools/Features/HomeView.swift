@@ -53,7 +53,7 @@ struct HomeView: View {
     }
 
     private var liveActivitiesStatus: String {
-        guard #available(iOS 16.1, *) else { return "Нужна iOS 16.1+" }
+        guard #available(iOS 16.2, *) else { return "Нужна iOS 16.2+" }
         return ActivityAuthorizationInfo().areActivitiesEnabled ? "Включены" : "Выключены"
     }
 }

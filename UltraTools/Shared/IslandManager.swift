@@ -18,7 +18,7 @@ final class IslandManager: ObservableObject {
     private var currentActivity: Activity<UltraTimerAttributes>?
 
     init() {
-        if #available(iOS 16.1, *) {
+        if #available(iOS 16.2, *) {
             activitiesEnabled = ActivityAuthorizationInfo().areActivitiesEnabled
         }
     }
@@ -33,8 +33,8 @@ final class IslandManager: ObservableObject {
         overlayEndsAt = endsAt
         showOverlay = true
 
-        guard #available(iOS 16.1, *) else {
-            errorMessage = "Для настоящего Dynamic Island нужна iOS 16.1 или новее."
+        guard #available(iOS 16.2, *) else {
+            errorMessage = "Для настоящего Dynamic Island нужна iOS 16.2 или новее."
             return
         }
 
@@ -68,7 +68,7 @@ final class IslandManager: ObservableObject {
     }
 
     func stop() {
-        if #available(iOS 16.1, *), let activity = currentActivity {
+        if #available(iOS 16.2, *), let activity = currentActivity {
             let finalState = UltraTimerAttributes.ContentState(
                 title: overlayTitle,
                 emoji: overlayEmoji,
